@@ -22,6 +22,11 @@ const locationSchema = new mongoose.Schema({
   visited: {
     type: Boolean,
     default: false
+  },
+  _owner: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User',
+    required: true
   }
 }, {
   timestamps: true,
