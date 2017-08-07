@@ -57,12 +57,17 @@ const addActivity = (req, res, next) => {
   // console.log('addActivity')
   // console.log('req.location: ', req.location)
   // console.log('req.body: ', req.body)
-  req.location.activities.push(req.body.activity.name)
-  // console.log('Updated activities: ', req.location.activities)
-  // console.log('attempting update')
-  req.location.update(req.location)
-    .then(() => res.sendStatus(204))
-    .catch(next)
+  // console.log('req.user: ', req.user)
+  if (req.user._id.toString() === req.location._owner.toString()) {
+    req.location.activities.push(req.body.activity.name)
+    // console.log('Updated activities: ', req.location.activities)
+    // console.log('attempting update')
+    req.location.update(req.location)
+      .then(() => res.sendStatus(204))
+      .catch(next)
+  } else {
+    res.sendStatus(404)
+  }
 }
 
 const removeActivity = (req, res, next) => {
@@ -71,13 +76,13 @@ const removeActivity = (req, res, next) => {
   // console.log('req.body: ', req.body)
   const index = req.location.activities.indexOf(req.body.activity.name)
   // console.log('Index: ', index)
-  if (index > -1) {
+  if (index > -1 && req.user._id.toString() === req.location._owner.toString()) {
     req.location.activities.splice(index, 1)
     // console.log('Updated activities: ', req.location.activities)
     // console.log('attempting update')
     req.location.update(req.location)
-    .then(() => res.sendStatus(204))
-    .catch(next)
+      .then(() => res.sendStatus(204))
+      .catch(next)
   } else {
     // console.log('Not found 404!')
     res.sendStatus(404)
