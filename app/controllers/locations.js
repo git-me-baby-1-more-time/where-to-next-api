@@ -116,6 +116,30 @@ const removeLandmark = (req, res, next) => {
   }
 }
 
+const addFood = (req, res, next) => {
+  if (req.user._id.toString() === req.location._owner.toString()) {
+    req.location.food.push(req.body.food.name)
+    req.location.update(req.location)
+      .then(() => res.sendStatus(204))
+      .catch(next)
+  } else {
+    res.sendStatus(404)
+  }
+}
+
+const removeFood = (req, res, next) => {
+  const index = req.location.food.indexOf(req.body.food.name)
+  if (index > -1 && req.user._id.toString() === req.location._owner.toString()) {
+    req.location.food.splice(index, 1)
+    req.location.update(req.location)
+      .then(() => res.sendStatus(204))
+      .catch(next)
+  } else {
+    res.sendStatus(404)
+    // next()
+  }
+}
+
 module.exports = controller({
   index,
   show,
@@ -125,10 +149,12 @@ module.exports = controller({
   addActivity,
   removeActivity,
   addLandmark,
-  removeLandmark
+  removeLandmark,
+  addFood,
+  removeFood
 }, { before: [
   { method: setUser, only: ['index', 'show'] },
   { method: authenticate },
   { method: setModel(Location), only: ['show'] },
-  { method: setModel(Location, { forUser: true }), only: ['update', 'destroy', 'addActivity', 'removeActivity', 'addLandmark', 'removeLandmark'] }
+  { method: setModel(Location, { forUser: true }), only: ['update', 'destroy', 'addActivity', 'removeActivity', 'addLandmark', 'removeLandmark', 'addFood', 'removeFood'] }
 ] })
