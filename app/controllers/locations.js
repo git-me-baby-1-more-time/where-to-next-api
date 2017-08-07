@@ -102,6 +102,9 @@ const addLandmark = (req, res, next) => {
     res.sendStatus(404)
   }
 }
+const removeLandmark = (req, res, next) => {
+  console.log('removeLandmark')
+}
 
 module.exports = controller({
   index,
@@ -111,10 +114,11 @@ module.exports = controller({
   destroy,
   addActivity,
   removeActivity,
-  addLandmark
+  addLandmark,
+  removeLandmark
 }, { before: [
   { method: setUser, only: ['index', 'show'] },
   { method: authenticate },
   { method: setModel(Location), only: ['show'] },
-  { method: setModel(Location, { forUser: true }), only: ['update', 'destroy', 'addActivity', 'removeActivity', 'addLandmark'] }
+  { method: setModel(Location, { forUser: true }), only: ['update', 'destroy', 'addActivity', 'removeActivity', 'addLandmark', 'removeLandmark'] }
 ] })
