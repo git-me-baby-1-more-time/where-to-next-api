@@ -49,15 +49,51 @@ const destroy = (req, res, next) => {
     .catch(next)
 }
 
+const addActivity = (req, res, next) => {
+  // console.log('addActivity')
+  // console.log('req.location: ', req.location)
+  // console.log('req.body: ', req.body)
+  req.location.activities.push(req.body.activity.name)
+  // console.log('Updated activities: ', req.location.activities)
+  // console.log('attempting update')
+  req.location.update(req.location)
+    .then(() => res.sendStatus(204))
+    .catch(next)
+}
+
+const removeActivity = (req, res, next) => {
+  // console.log('removeActivity')
+  // console.log('req.location: ', req.location)
+  // console.log('req.body: ', req.body)
+  const index = req.location.activities.indexOf(req.body.activity.name)
+  // console.log('Index: ', index)
+  if (index > -1) {
+    req.location.activities.splice(index, 1)
+    // console.log('Updated activities: ', req.location.activities)
+    // console.log('attempting update')
+    req.location.update(req.location)
+    .then(() => res.sendStatus(204))
+    .catch(next)
+  } else {
+    // console.log('Not found 404!')
+    res.sendStatus(404)
+    // console.log('Response sent!')
+    // next()
+    // console.log('Nexted!')
+  }
+}
+
 module.exports = controller({
   index,
   show,
   create,
   update,
-  destroy
+  destroy,
+  addActivity,
+  removeActivity
 }, { before: [
   { method: setUser, only: ['index', 'show'] },
   { method: authenticate, except: ['index', 'show'] },
   { method: setModel(Location), only: ['show'] },
-  { method: setModel(Location, { forUser: true }), only: ['update', 'destroy'] }
+  { method: setModel(Location, { forUser: true }), only: ['update', 'destroy', 'addActivity', 'removeActivity'] }
 ] })
