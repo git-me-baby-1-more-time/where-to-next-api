@@ -9,7 +9,7 @@ const setUser = require('./concerns/set-current-user')
 const setModel = require('./concerns/set-mongoose-model')
 
 const index = (req, res, next) => {
-  Location.find()
+  Location.find({_owner: req.user})
     .then(locations => res.json({
       locations: locations.map((e) =>
         e.toJSON({ virtuals: true, user: req.user }))
@@ -18,9 +18,13 @@ const index = (req, res, next) => {
 }
 
 const show = (req, res) => {
-  res.json({
-    location: req.location.toJSON({ virtuals: true, user: req.user })
-  })
+  if (req.user._id.toString() === req.location._owner.toString()) {
+    res.json({
+      location: req.location.toJSON({ virtuals: true, user: req.user })
+    })
+  } else {
+    res.sendStatus(404)
+  }
 }
 
 const create = (req, res, next) => {
@@ -93,7 +97,7 @@ module.exports = controller({
   removeActivity
 }, { before: [
   { method: setUser, only: ['index', 'show'] },
-  { method: authenticate, except: ['index', 'show'] },
+  { method: authenticate },
   { method: setModel(Location), only: ['show'] },
   { method: setModel(Location, { forUser: true }), only: ['update', 'destroy', 'addActivity', 'removeActivity'] }
 ] })
