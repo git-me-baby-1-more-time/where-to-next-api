@@ -142,7 +142,7 @@ const removeFood = (req, res, next) => {
 
 const addComment = (req, res, next) => {
   if (req.user._id.toString() === req.location._owner.toString()) {
-    req.location.comment.push(req.body.comment.name)
+    req.location.comments.push(req.body.comment.name)
     req.location.update(req.location)
       .then(() => res.sendStatus(204))
       .catch(next)
@@ -152,9 +152,9 @@ const addComment = (req, res, next) => {
 }
 
 const removeComment = (req, res, next) => {
-  const index = req.location.food.indexOf(req.body.food.name)
+  const index = req.location.comments.indexOf(req.body.comment.name)
   if (index > -1 && req.user._id.toString() === req.location._owner.toString()) {
-    req.location.comment.splice(index, 1)
+    req.location.comments.splice(index, 1)
     req.location.update(req.location)
       .then(() => res.sendStatus(204))
       .catch(next)
