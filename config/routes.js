@@ -23,6 +23,10 @@ module.exports = require('lib/wiring/routes')
 .post('/food/:id', 'locations#addFood')
 .delete('/food/:id', 'locations#removeFood')
 
+// Special routes for comments
+.post('/comments/:id', 'locations#addComment')
+.delete('/comments/:id', 'locations#removeComment')
+
 // users of the app have special requirements
 .post('/sign-up', 'users#signup')
 .post('/sign-in', 'users#signin')
