@@ -92,6 +92,17 @@ const removeActivity = (req, res, next) => {
   }
 }
 
+const addLandmark = (req, res, next) => {
+  if (req.user._id.toString() === req.location._owner.toString()) {
+    req.location.landmarks.push(req.body.landmark.name)
+    req.location.update(req.location)
+      .then(() => res.sendStatus(204))
+      .catch(next)
+  } else {
+    res.sendStatus(404)
+  }
+}
+
 module.exports = controller({
   index,
   show,
@@ -99,10 +110,11 @@ module.exports = controller({
   update,
   destroy,
   addActivity,
-  removeActivity
+  removeActivity,
+  addLandmark
 }, { before: [
   { method: setUser, only: ['index', 'show'] },
   { method: authenticate },
   { method: setModel(Location), only: ['show'] },
-  { method: setModel(Location, { forUser: true }), only: ['update', 'destroy', 'addActivity', 'removeActivity'] }
+  { method: setModel(Location, { forUser: true }), only: ['update', 'destroy', 'addActivity', 'removeActivity', 'addLandmark'] }
 ] })
