@@ -11,6 +11,10 @@ module.exports = require('lib/wiring/routes')
 .resources('examples')
 .resources('locations')
 
+// Special routes for activities
+.post('/activities/:id', 'locations#addActivity')
+.delete('/activities/:id', 'locations#removeActivity')
+
 // users of the app have special requirements
 .post('/sign-up', 'users#signup')
 .post('/sign-in', 'users#signin')
