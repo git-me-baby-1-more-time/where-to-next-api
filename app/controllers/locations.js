@@ -102,8 +102,18 @@ const addLandmark = (req, res, next) => {
     res.sendStatus(404)
   }
 }
+
 const removeLandmark = (req, res, next) => {
-  console.log('removeLandmark')
+  const index = req.location.landmarks.indexOf(req.body.landmark.name)
+  if (index > -1 && req.user._id.toString() === req.location._owner.toString()) {
+    req.location.landmarks.splice(index, 1)
+    req.location.update(req.location)
+      .then(() => res.sendStatus(204))
+      .catch(next)
+  } else {
+    res.sendStatus(404)
+    // next()
+  }
 }
 
 module.exports = controller({
