@@ -4,7 +4,9 @@ Where To Next is like an online travel bucketlist. We provide a list of cities f
 
 ## Links
 [Front End Repo](https://github.com/git-me-baby-1-more-time/where-to-next-front)
+
 [Front End Deployed](https://git-me-baby-1-more-time.github.io/where-to-next-front/)
+
 [Back End Deployed](https://aqueous-spire-71565.herokuapp.com/)
 
 ## Endpoints
