@@ -1,6 +1,6 @@
 # Where To Next? API
 ## What is this?
-Where To Next is like an online travel bucketlist. We provide a list of cities from around the world, and allow you, the user, to choose what activities, landmarks, and food you would visit on your dream trip! The site includes a hopefully enticing photo of the city of your choice as well as a map, where the user can click around and find what area they would like to visit, as well as businesses to visit and adventures you can take while on the trip.
+Where To Next is like an online travel bucket list. We provide a list of cities from around the world, and allow you, the user, to choose what activities, landmarks, and food you would visit on your dream trip! The site includes a hopefully enticing photo of the city of your choice as well as a map, where the user can click around and find what area they would like to visit, as well as businesses to visit and adventures you can take while on the trip.
 
 ## Links
 [Front End Repo](https://github.com/git-me-baby-1-more-time/where-to-next-front)
